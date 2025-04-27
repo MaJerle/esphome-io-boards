@@ -2,6 +2,10 @@ esphome:
   name: pcf-io-expander-test
   friendly_name: pcf_io_expander_test
 
+  project:
+    name: "MaJerle.my-first-project"
+    version: v0.0.1
+
 esp32:
   board: esp32dev
   framework:
