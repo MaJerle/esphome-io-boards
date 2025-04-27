@@ -30,6 +30,10 @@ dashboard_import:
   package_import_url: github://MaJerle/esphome-io-boards/esp32-8in-8out-relay-eth-v0.1.yaml
   import_full_config: false
 
+# Simple web server goes here
+web_server:
+  port: 80
+
 # I2C configuration
 i2c:
   sda: GPIO05
