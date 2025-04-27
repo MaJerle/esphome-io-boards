@@ -1,0 +1,132 @@
+# Global variable goes here
+globals:
+  # Value stored between resets for the configuration
+  - id: var_toggle_output_when_api_off_${id}
+    type: bool
+    restore_value: yes
+    initial_value: "true"
+
+# Switches
+switch:
+  # Output switch
+  - id: switch_${id}
+    platform: gpio
+    name: "Output #${id}"
+    pin: ${switch_output_id}
+    inverted: false
+
+  # Configurable template switch to decide if input toggles the output
+  # when the HA API is down
+  - id: switch_toggle_output_when_api_disconnected_${id}
+    platform: template
+    name: "Output toggle #${id} on disconnect"
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    entity_category: CONFIG
+
+# Inputs
+binary_sensor:
+  - platform: gpio
+    name: "Input #${id}"
+    id: input_${id}
+    pin:
+      pcf8574: pcf8574_hub_input
+      number: ${pcf_input_channel_number}
+      mode:
+        input: true
+    filters:
+      - invert:
+      - delayed_on_off: 50ms
+
+    # On press
+    on_press:
+      then:
+        - logger.log: "on_press"
+        - if:
+            condition:
+              - not:
+                  api.connected:
+              - switch.is_on: switch_toggle_output_when_api_disconnected_${id}
+
+            then:
+              - switch.toggle: switch_${id}
+        - event.trigger:
+            id: button_${id}_event
+            event_type: button_press
+
+    on_multi_click:
+      # On click
+      - timing:
+          - ON for at most 0.2s
+          - OFF for at least 0.4s
+        then:
+          - logger.log: "on single click"
+          - event.trigger:
+              id: button_${id}_event
+              event_type: button_single_click
+
+      # Double click
+      - timing:
+          - ON for at most 0.2s
+          - OFF for at most 0.4s
+          - ON for at most 0.2s
+          - OFF for at least 0.4s
+        then:
+          - logger.log: "on double click"
+          - event.trigger:
+              id: button_${id}_event
+              event_type: button_double_click
+
+      # Release after press
+      - timing:
+          - ON for at most 1s
+        then:
+          - logger.log: "on press release"
+          - event.trigger:
+              id: button_${id}_event
+              event_type: button_press_release
+
+      # Hold event
+      - timing:
+          - ON for at least 1s
+        then:
+          - while:
+              condition:
+                - binary_sensor.is_on: input_${id}
+              then:
+                - logger.log: "on hold"
+                - event.trigger:
+                    id: button_${id}_event
+                    event_type: none
+                - event.trigger:
+                    id: button_${id}_event
+                    event_type: button_hold
+                - delay: 1s
+
+      # Hold released
+      - timing:
+          - ON for at least 1s
+          - OFF for at least 0.2s
+        then:
+          - logger.log: "on hold release"
+          - event.trigger:
+              id: button_${id}_event
+              event_type: button_hold_release
+
+# Event object
+event:
+  - platform: template
+    name: "Button ${id} action"
+    id: "button_${id}_event"
+    device_class: button
+    event_types:
+      - none
+      - button_press
+      - button_press_release
+      - button_hold
+      - button_hold_release
+      - button_single_click
+      - button_double_click
+    on_event:
+      then:
+        logger.log: "Button ${id} action event triggered"
