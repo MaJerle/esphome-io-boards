@@ -4,7 +4,7 @@ esphome:
 
   project:
     name: "MaJerle.my-first-project"
-    version: "0.0.2"
+    version: "0.0.3"
 
 esp32:
   board: esp32dev
