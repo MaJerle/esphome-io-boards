@@ -1,3 +1,7 @@
+#
+# One channel package, repeated per device multiple times
+#
+
 # Global variable goes here
 globals:
   # Value stored between resets for the configuration
