@@ -4,7 +4,7 @@ esphome:
 
   project:
     name: "MaJerle.my-first-project"
-    version: "0.0.2"
+    version: "0.0.4"
 
 esp32:
   board: esp32dev
@@ -31,8 +31,8 @@ dashboard_import:
   import_full_config: false
 
 # Simple web server goes here
-web_server:
-  port: 80
+#web_server:
+#  port: 80
 
 # I2C configuration
 i2c:
