@@ -5,7 +5,7 @@ esphome:
   
   project:
     name: "MaJerle.ESP32-8IN-8OUT-RELAY-ETH"
-    version: "0.0.5"
+    version: "0.0.6"
 
 esp32:
   board: esp32dev
@@ -21,20 +21,20 @@ api:
 ota:
   - platform: esphome
 
-#wifi:
-## Spawn the AP with no credentials
-#  ap: {}
-#
-#captive_portal:
+wifi:
+# Spawn the AP with no credentials
+  ap: {}
 
-ethernet:
-  type: LAN8720
-  mdc_pin: GPIO23
-  mdio_pin: GPIO18
-  clk:
-    pin: GPIO17
-    mode: CLK_OUT
-  phy_addr: 0
+captive_portal:
+
+#ethernet:
+#  type: LAN8720
+#  mdc_pin: GPIO23
+#  mdio_pin: GPIO18
+#  clk:
+#    pin: GPIO17
+#    mode: CLK_OUT
+#  phy_addr: 0
 
 dashboard_import:
   package_import_url: github://MaJerle/esphome-io-boards/esp32-8in-8out-relay-eth-v0.1.yaml
