@@ -1,10 +1,10 @@
 esphome:
-  name: pcf-io-expander-test
-  friendly_name: pcf_io_expander_test
+  name: ESP32-8IN-OUT-RELAY-ETH
+  friendly_name: ESP32_8IN_OUT_RELAY_ETH
 
   project:
-    name: "MaJerle.my-first-project"
-    version: "0.0.4"
+    name: "MaJerle.ESP32-8IN-OUT-RELAY-ETH"
+    version: "0.0.5"
 
 esp32:
   board: esp32dev
@@ -20,11 +20,20 @@ api:
 ota:
   - platform: esphome
 
-wifi:
-  # Spawn the AP with no credentials
-  ap: {}
+#wifi:
+## Spawn the AP with no credentials
+#  ap: {}
+#
+#captive_portal:
 
-captive_portal:
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk:
+    pin: GPIO17
+    mode: CLK_OUT
+  phy_addr: 0
 
 dashboard_import:
   package_import_url: github://MaJerle/esphome-io-boards/esp32-8in-8out-relay-eth-v0.1.yaml
@@ -44,7 +53,10 @@ i2c:
 # PFC expanders
 pcf8574:
   - id: "pcf8574_hub_input"
-    address: 0x26
+    address: 0x20
+    pcf8575: false
+  - id: "pcf8574_leds"
+    address: 0x21
     pcf8575: false
 
 packages:
@@ -104,34 +116,45 @@ button:
   - platform: factory_reset
     name: "Factory reset"
 
-# Example configuration entry
-text_sensor:
-  - platform: wifi_info
-    ip_address:
-      name: ESP IP Address
-      address_0:
-        name: ESP IP Address 0
-      address_1:
-        name: ESP IP Address 1
-      address_2:
-        name: ESP IP Address 2
-      address_3:
-        name: ESP IP Address 3
-      address_4:
-        name: ESP IP Address 4
-    ssid:
-      name: ESP Connected SSID
-    bssid:
-      name: ESP Connected BSSID
-    mac_address:
-      name: ESP Mac Wifi Address
-    scan_results:
-      name: ESP Latest Scan Results
-    dns_address:
-      name: ESP DNS Address
-
 # List of sensors
 sensor:
   - platform: uptime
     type: seconds
     name: "Uptime"
+
+switch:
+  - platform: gpio
+    name: "User led #1"
+    id: user_led_1
+    pin:
+      pcf8574: pcf8574_leds
+      number: 7
+    inverted: true
+  - platform: gpio
+    name: "User led #2"
+    id: user_led_2
+    pin:
+      pcf8574: pcf8574_leds
+      number: 3
+    inverted: true
+  - platform: gpio
+    name: "User led #3"
+    id: user_led_3
+    pin:
+      pcf8574: pcf8574_leds
+      number: 2
+    inverted: true
+  - platform: gpio
+    name: "User led #4"
+    id: user_led_4
+    pin:
+      pcf8574: pcf8574_leds
+      number: 1
+    inverted: true
+  - platform: gpio
+    name: "User led #5"
+    id: user_led_5
+    pin:
+      pcf8574: pcf8574_leds
+      number: 0
+    inverted: true
