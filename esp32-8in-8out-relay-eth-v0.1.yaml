@@ -1,10 +1,10 @@
 esphome:
   name: ESP32-8IN-OUT-RELAY-ETH
-  friendly_name: ESP32_8IN_OUT_RELAY_ETH
+  friendly_name: ESP32_8IN_8OUT_RELAY_ETH
   name_add_mac_suffix: true
   
   project:
-    name: "MaJerle.ESP32-8IN-OUT-RELAY-ETH"
+    name: "MaJerle.ESP32-8IN-8OUT-RELAY-ETH"
     version: "0.0.5"
 
 esp32:
