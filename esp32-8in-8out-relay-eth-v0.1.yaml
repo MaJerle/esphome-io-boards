@@ -17,14 +17,31 @@ logger:
 
 # Enable Home Assistant API
 api:
+  
+  # Manage the status led
+  on_client_connected:
+    then:
+      - switch.turn_on: led_api_connected
+  on_client_disconnected:
+    then:
+      - switch.turn_off: led_api_connected
 
 ota:
   - platform: esphome
 
 wifi:
-# Spawn the AP with no credentials
+  # Spawn the AP with no credentials
   ap: {}
 
+  # Manage the status led
+  on_connect:
+    then:
+      - switch.turn_on: led_wifi_or_network_connected
+  on_disconnect:
+    then:
+      - switch.turn_off: led_wifi_or_network_connected
+
+# Captive portal to load the wifi for user
 captive_portal:
 
 #ethernet:
@@ -158,4 +175,20 @@ switch:
     pin:
       pcf8574: pcf8574_leds
       number: 0
+    inverted: true
+
+  # Internal use led indicators
+  - platform: gpio
+    internal: true
+    id: led_wifi_or_network_connected
+    pin:
+      pcf8574: pcf8574_leds
+      number: 4
+    inverted: true
+  - platform: gpio
+    internal: true
+    id: led_api_connected
+    pin:
+      pcf8574: pcf8574_leds
+      number: 6
     inverted: true
