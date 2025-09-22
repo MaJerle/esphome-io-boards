@@ -5,7 +5,7 @@ esphome:
   
   project:
     name: "MaJerle.esp32_8in_8out_relay_eth"
-    version: "0.0.7"
+    version: "0.0.8"
 
 esp32:
   board: esp32dev
@@ -192,3 +192,7 @@ switch:
       pcf8574: pcf8574_leds
       number: 6
     inverted: true
+
+# Enable web server by default
+web_server:
+  port: 80
