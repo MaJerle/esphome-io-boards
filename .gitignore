@@ -23,6 +23,8 @@
 *.__i
 *.i
 *.txt
+*.raw
+*.log
 !docs/*.txt
 !CMakeLists.txt
 RTE/
