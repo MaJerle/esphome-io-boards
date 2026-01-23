@@ -41,7 +41,7 @@ ota:
 #      - switch.turn_off: led_wifi_or_network_connected
 
 # Captive portal to load the wifi for user
-captive_portal:
+#captive_portal:
 
 ethernet:
   type: LAN8720
