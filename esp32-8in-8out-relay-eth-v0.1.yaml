@@ -29,29 +29,28 @@ api:
 ota:
   - platform: esphome
 
-wifi:
-  # Spawn the AP with no credentials
-  ap: {}
-
-  # Manage the status led
-  on_connect:
-    then:
-      - switch.turn_on: led_wifi_or_network_connected
-  on_disconnect:
-    then:
-      - switch.turn_off: led_wifi_or_network_connected
+#wifi:
+#  # Spawn the AP with no credentials
+#  ap: {}
+#  # Manage the status led
+#  on_connect:
+#    then:
+#      - switch.turn_on: led_wifi_or_network_connected
+#  on_disconnect:
+#    then:
+#      - switch.turn_off: led_wifi_or_network_connected
 
 # Captive portal to load the wifi for user
 captive_portal:
 
-#ethernet:
-#  type: LAN8720
-#  mdc_pin: GPIO23
-#  mdio_pin: GPIO18
-#  clk:
-#    pin: GPIO17
-#    mode: CLK_OUT
-#  phy_addr: 0
+ethernet:
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
+  clk:
+    pin: GPIO17
+    mode: CLK_OUT
+  phy_addr: 0
 
 dashboard_import:
   package_import_url: github://MaJerle/esphome-io-boards/esp32-8in-8out-relay-eth-v0.1.yaml
